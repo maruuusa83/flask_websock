@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title></title>
+</head>
+<body>
+	<h1>test</h1>
+	<div>
+		<input name="send_input" id="send_input" />
+		<input type="button" value="push" onclick="send_data()" />
+	</div>
+	<div>
+		<textarea id="view" name="" cols="30" rows="10"></textarea>
+	</div>
+	<script type="text/javascript" src="static/jquery.min.js"></script>
+	<script type="text/javascript">
+var ws = new WebSocket("ws://nado.oknctict.tk:5000/echo");
+ws.onmessage = function(e){
+	$("#view").html($("#view").val() + e.data + "\n");
+};
+function send_data(){
+	ws.send($("#send_input").val());
+};
+	</script>
+</body>
+</html>
