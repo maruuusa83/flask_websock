@@ -3,6 +3,9 @@ from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 from flask import Flask, request, render_template
 
+import datetime
+import locale
+
 app = Flask(__name__);
 
 @app.route('/')
@@ -19,10 +22,12 @@ def echo():
 			if message is None:
 				break;
 			websock.send(message);
-			websock.send(message);
+
+			d = datetime.datetime.today();
+			websock.send(d.strftime("%Y-%m-%d %H:%M:%S"));
 		
 	return;
 
 if __name__ == '__main__':
-	server = WSGIServer(('0.0.0.0', 5000), app, handler_class=WebSocketHandler);
+	server = WSGIServer(('0.0.0.0', 8000), app, handler_class=WebSocketHandler);
 	server.serve_forever();

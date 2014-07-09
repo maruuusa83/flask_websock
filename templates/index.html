@@ -15,7 +15,7 @@
 	</div>
 	<script type="text/javascript" src="static/jquery.min.js"></script>
 	<script type="text/javascript">
-var ws = new WebSocket("ws://nado.oknctict.tk:5000/echo");
+var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
 ws.onmessage = function(e){
 	$("#view").html($("#view").val() + e.data + "\n");
 };
