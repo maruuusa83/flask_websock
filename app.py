@@ -5,6 +5,8 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__);
 
+ws_list = set();
+
 @app.route('/')
 def index():
 	return render_template('index.html');
@@ -13,16 +15,14 @@ def index():
 @app.route('/echo')
 def echo():
 	if request.environ.get('wsgi.websocket'):
-		global websock;
 		websock = request.environ['wsgi.websocket'];
+		ws_list.add(websock);
 		while True:
-			global message;
 			message = websock.receive();
 			if message is None:
 				break;
-			websock.send(message);
-			websock.send(message);
-		
+			for user in ws_list:
+				user.send(message);
 	return;
 
 if __name__ == '__main__':
