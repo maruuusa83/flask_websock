@@ -13,8 +13,10 @@ def index():
 @app.route('/echo')
 def echo():
 	if request.environ.get('wsgi.websocket'):
+		global websock;
 		websock = request.environ['wsgi.websocket'];
 		while True:
+			global message;
 			message = websock.receive();
 			if message is None:
 				break;
