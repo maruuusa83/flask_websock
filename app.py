@@ -5,7 +5,7 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__);
 
-ws_list = set();
+ws_list = [];
 
 @app.route('/')
 def index():
@@ -16,7 +16,7 @@ def index():
 def echo():
 	if request.environ.get('wsgi.websocket'):
 		websock = request.environ['wsgi.websocket'];
-		ws_list.add(websock);
+		ws_list.append(websock);
 		while True:
 			message = websock.receive();
 			if message is None:
