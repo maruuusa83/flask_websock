@@ -5,6 +5,16 @@
 	<title></title>
 </head>
 <body>
+	<h1>login</h1>
+	<div>
+		<input name="id_input" id="id_input" />
+		<input name="pass_input" id="pass_input" />
+		<input type="button" value="login" onclick="send_userdata()" />
+	</div>
+	<h1>login information</h1>
+	<div>
+		<textarea id="info" name="" cols="10" ros="10" ></textarea>
+	</div>
 	<h1>test</h1>
 	<div>
 		<input name="send_input" id="send_input" />
@@ -22,6 +32,8 @@ ws.onmessage = function(e){
 function send_data(){
 	ws.send($("#send_input").val());
 };
+function send_userdata(){
+}
 	</script>
 </body>
 </html>
