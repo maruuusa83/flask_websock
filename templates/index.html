@@ -17,6 +17,7 @@
 	</div>
 	<h1>test</h1>
 	<div>
+		<input name="to_user" id="to_user" />
 		<input name="send_input" id="send_input" />
 		<input type="button" value="push" onclick="send_data()" />
 	</div>
@@ -30,10 +31,17 @@ ws.onmessage = function(e){
 	$("#view").html($("#view").val() + e.data + "\n");
 };
 function send_data(){
-	ws.send($("#send_input").val());
+	var json = {"type":"chat", "from":$("#id_input").val(), "to":$("#to_user").val(), "text":$("#send_input").val()};
+	var json_text = JSON.stringify(json);
+	ws.send(json_text);
 };
 function send_userdata(){
-}
+	var json = {"type":"web", "id": $("#id_input").val(),  "pass":$("#pass_input").val()};
+	var json_text = JSON.stringify(json);
+	ws.send(json_text);
+	console.log(json_text);
+	//ws.send($("#id_input").val() + "  " + $("#pass_input").val());
+};
 	</script>
 </body>
 </html>

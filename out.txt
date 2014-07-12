@@ -1,0 +1,74 @@
+test
+test
+test
+test
+{u'type': u'web', u'id': u'user1', u'pass': u'pass1'}
+user1 pass1
+None
+{u'from': u'user1', u'text': u'kokohorewanwan', u'type': u'chat', u'to': u'user2'}
+{u'from': u'user1', u'text': u'kokohorewanwan', u'type': u'chat', u'to': u'user2'}
+test
+test
+{u'type': u'web', u'id': u'user1', u'pass': u'tadakachu1'}
+user1 tadakachu1
+{u'_id': ObjectId('53be61ee096e9b31f60b637d'), u'id': u'user1', u'pass': u'tadakachu1'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x147a210>)]
+{u'from': u'user1', u'text': u'messagegegege', u'type': u'chat', u'to': u'user2'}
+{u'from': u'user1', u'text': u'messagegegege', u'type': u'chat', u'to': u'user2'}
+test
+test
+test
+test
+{u'type': u'web', u'id': u'user1', u'pass': u'tadakachu1'}
+user1 tadakachu1
+{u'_id': ObjectId('53be61ee096e9b31f60b637d'), u'id': u'user1', u'pass': u'tadakachu1'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x1810360>)]
+{u'type': u'web', u'id': u'user2', u'pass': u'tadakachu2'}
+user2 tadakachu2
+{u'_id': ObjectId('53be76e806c3ec51987af372'), u'id': u'user2', u'pass': u'tadakachu2'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x1810360>), (u'user2', <geventwebsocket.websocket.WebSocket object at 0x1810130>)]
+{u'from': u'user2', u'text': u'tadakachukaigi', u'type': u'chat', u'to': u'user1'}
+{u'from': u'user2', u'text': u'tadakachukaigi', u'type': u'chat', u'to': u'user1'}
+test
+test
+test
+test
+{u'type': u'web', u'id': u'user1', u'pass': u'tadakachu1'}
+user1 tadakachu1
+{u'_id': ObjectId('53be61ee096e9b31f60b637d'), u'id': u'user1', u'pass': u'tadakachu1'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x258f1a0>)]
+{u'type': u'web', u'id': u'user2', u'pass': u'tadakachu2'}
+user2 tadakachu2
+{u'_id': ObjectId('53be76e806c3ec51987af372'), u'id': u'user2', u'pass': u'tadakachu2'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x258f1a0>), (u'user2', <geventwebsocket.websocket.WebSocket object at 0x258f3d0>)]
+{u'from': u'user2', u'text': u'tadakachukaigichu', u'type': u'chat', u'to': u'user1'}
+{u'from': u'user2', u'text': u'tadakachukaigichu', u'type': u'chat', u'to': u'user1'}
+(u'user1', <geventwebsocket.websocket.WebSocket object at 0x258f1a0>)
+(u'user2', <geventwebsocket.websocket.WebSocket object at 0x258f3d0>)
+test
+test
+test
+test
+{u'type': u'web', u'id': u'user1', u'pass': u'tadakachu1'}
+user1 tadakachu1
+{u'_id': ObjectId('53be61ee096e9b31f60b637d'), u'id': u'user1', u'pass': u'tadakachu1'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)]
+{u'type': u'web', u'id': u'user2', u'pass': u'tadakachu2'}
+user2 tadakachu2
+{u'_id': ObjectId('53be76e806c3ec51987af372'), u'id': u'user2', u'pass': u'tadakachu2'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>), (u'user2', <geventwebsocket.websocket.WebSocket object at 0x11d01a0>)]
+{u'from': u'user2', u'text': u'kaigichu', u'type': u'chat', u'to': u'user1'}
+{u'from': u'user2', u'text': u'kaigichu', u'type': u'chat', u'to': u'user1'}
+(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)
+(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)
+(u'user2', <geventwebsocket.websocket.WebSocket object at 0x11d01a0>)
+{u'type': u'web', u'id': u'user1', u'pass': u'tadakachu1'}
+user1 tadakachu1
+{u'_id': ObjectId('53be61ee096e9b31f60b637d'), u'id': u'user1', u'pass': u'tadakachu1'}
+[(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>), (u'user2', <geventwebsocket.websocket.WebSocket object at 0x11d01a0>), (u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)]
+{u'from': u'user1', u'text': u'tadakachupoyo', u'type': u'chat', u'to': u'user2'}
+{u'from': u'user1', u'text': u'tadakachupoyo', u'type': u'chat', u'to': u'user2'}
+(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)
+(u'user2', <geventwebsocket.websocket.WebSocket object at 0x11d01a0>)
+(u'user2', <geventwebsocket.websocket.WebSocket object at 0x11d01a0>)
+(u'user1', <geventwebsocket.websocket.WebSocket object at 0x11d03d0>)
