@@ -17,6 +17,10 @@ def myprint(obj):
 def index():
 	return render_template('index.html');
 
+class UserClass:
+	user_list = [];
+	
+
 @app.route('/echo')
 def echo():
 	myprint("test")
@@ -49,15 +53,16 @@ def login(jsonData, websock):
 
 def chat(jsonData):
 	myprint(jsonData);
-	from_user = jsonData["from"];
 	to_user = jsonData["to"];
 	message = jsonData["text"];
-	for user in user_list:
-		myprint(user);
-		if user[0] == to_user:
-			myprint(user);
-			user[1].send(message);
+	send_message(to_user, message);
 	return;
+
+def send_message(to_user, message):
+	for user in user_list:
+		if user[0] == to_user:
+			user[1].send(message);
+	return;		
 
 @app.before_request
 def before_request():
