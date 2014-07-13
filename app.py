@@ -36,16 +36,23 @@ class User:
 		myprint("tmp");
 
 	def chat(self, jsonData):
-		myprint(jsonData);
 		to_user = jsonData["to"];
 		message = jsonData["text"];
-		send_message(to_user, message);
+		myprint(to_user + " " + message);
+		for user in user_list:
+			if user.user_id == to_user:
+				user.websock.send(message);
+		return;
+	#	send_message(self, to_user, message);
 
+	'''
 	def send_message(self, to_user, message):
+		myprint(to_user +  message);
 		for user in user_list:
 			if user.user_id == to_user:
 				user.websock.send(message);
 		return;		
+	'''
 
 @app.route('/echo')
 def echo():
@@ -69,14 +76,14 @@ def echo():
 				user.append_data(jsonData, websock);
 				user_list.append(user);
 				for u in user_list:
-					myprint(u);
-					# myprint(u.self.user_id + " " + u.self.websock);
+					myprint(u.user_id + " " + str(u.websock));
 			else:
 				user.chat(jsonData);
 				#for user in ws_list:
 				#	user.send(message);
 	return "nadeko";
 
+'''
 def login(jsonData, websock):
 	myprint(jsonData["id"] + " " + jsonData["pass"]);
 	db_find = g.db.users.find_one({"id":jsonData["id"], "pass":jsonData["pass"]});
@@ -98,6 +105,7 @@ def send_message(to_user, message):
 		if user[0] == to_user:
 			user[1].send(message);
 	return;		
+'''
 
 @app.before_request
 def before_request():
