@@ -17,10 +17,6 @@ def myprint(obj):
 def index():
 	return render_template('index.html');
 
-class Duck:
-	def sound(self):
-		myprint("guwa");
-
 class User:
 	def append_data(self, jsonData, websock):
 		myprint("append called");
@@ -29,23 +25,23 @@ class User:
 		return;
 
 	def login(self, jsonData):
-		myprint("kita");
+		myprint("login called");
 		check_user = g.db.users.find_one({"id":jsonData["id"], "pass":jsonData["pass"]});
-		myprint(str(check_user));
-		if check_user is None:	
+		if check_user is None:
+			myprint(jsonData["id"] + " is NotFound");
 			return False;
 		return True;
 
 	def tmp(self):
 		myprint("tmp");
 
-	def chat(jsonData):
+	def chat(self, jsonData):
 		myprint(jsonData);
 		to_user = jsonData["to"];
 		message = jsonData["text"];
 		send_message(to_user, message);
 
-	def send_message(to_user, message):
+	def send_message(self, to_user, message):
 		for user in user_list:
 			if user.user_id == to_user:
 				user.websock.send(message);
@@ -53,23 +49,20 @@ class User:
 
 @app.route('/echo')
 def echo():
-	myprint("test");
 	if request.environ.get('wsgi.websocket'):
 		websock = request.environ['wsgi.websocket'];
 		while True:
-			myprint("tukareta");
+		#	myprint("tukareta");
 			data = websock.receive();
-			duck = Duck();
-			duck.sound();
 			user = User();
-			myprint(data);
-			user.tmp();
+		#	myprint(data);
+		#	user.tmp();
 			if not data:
 				break;
 			jsonData = json.loads(data);
 			if jsonData["type"] == "web":
 				myprint(jsonData);
-				myprint("ws=" +str(websock));
+				myprint("ws="  + str(websock));
 				flag = user.login(jsonData);
 				if flag == False:
 					continue;
@@ -77,6 +70,7 @@ def echo():
 				user_list.append(user);
 				for u in user_list:
 					myprint(u);
+					# myprint(u.self.user_id + " " + u.self.websock);
 			else:
 				user.chat(jsonData);
 				#for user in ws_list:
