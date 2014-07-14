@@ -32,27 +32,18 @@ class User:
 			return False;
 		return True;
 
-	def tmp(self):
-		myprint("tmp");
-
 	def chat(self, jsonData):
 		to_user = jsonData["to"];
 		message = jsonData["text"];
 		myprint(to_user + " " + message);
-		for user in user_list:
-			if user.user_id == to_user:
-				user.websock.send(message);
-		return;
-	#	send_message(self, to_user, message);
+		self.send_message(to_user, message);
 
-	'''
 	def send_message(self, to_user, message):
 		myprint(to_user +  message);
 		for user in user_list:
 			if user.user_id == to_user:
 				user.websock.send(message);
 		return;		
-	'''
 
 @app.route('/echo')
 def echo():
