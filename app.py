@@ -24,6 +24,7 @@ def echo():
 		while True:
 			message = websock.receive();
 			if message is None:
+				wss.remove(websock);
 				break;
 			for ws in wss:
 				d = datetime.datetime.today();
@@ -31,6 +32,9 @@ def echo():
 				ws.send('{"type":"msg", "data":"' + cont + '"}');
 		
 	return;
+
+def userNumBroadcast():
+	global wss;
 
 if __name__ == '__main__':
 	server = WSGIServer(('0.0.0.0', 8000), app, handler_class=WebSocketHandler);
