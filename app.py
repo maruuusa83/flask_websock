@@ -28,7 +28,7 @@ def echo():
 			for ws in wss:
 				d = datetime.datetime.today();
 				cont = "<p>" + message + "</p>" + "<small>" + d.strftime("%Y-%m-%d %H:%M:%S") + "</small>";
-				ws.send(cont);
+				ws.send('{"type":"msg", "data":"' + cont + '"}');
 		
 	return;
 

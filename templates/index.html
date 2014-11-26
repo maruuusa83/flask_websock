@@ -17,16 +17,17 @@
     <div class="row">
 		<div class="span2"></div>
 		<div class="span8">
-
 			<div class="page-header">
 				<h1>Bulletin Board <small>for 7th mi</small></h1>
 			</div>
+
 			<div>
 				<form onsubmit="return false;">
-					<input class="span7" name="send_input" id="send_input" />
+					<input class="span6" name="send_input" id="send_input" />
 					<input class="span1" type="submit" value="send" onclick="send_data()" />
 				</form>
 			</div>
+			<p>Now Access : <span id="numOfAccess">0</span></p>
 			<div id="view"></div>
 		</div>
 		<div class="span2"></div>
@@ -38,8 +39,12 @@
 	<script type="text/javascript">
 var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
 ws.onmessage = function(e){
-	str = "<blockquote style=\"width:100%;\">" + e.data + "</blockquote>";
-	$("#view").prepend($(str));
+	var recvData = jQuery.parseJSON(e.data);
+
+	if (recvData.type == "msg"){
+		str = "<blockquote style=\"width:100%;\">" + recvData.data + "</blockquote>";
+		$("#view").prepend($(str));
+	}
 };
 function send_data(){
 	ws.send($("#send_input").val());
