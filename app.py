@@ -26,10 +26,9 @@ def echo():
 			if message is None:
 				break;
 			for ws in wss:
-				ws.send(message);
-
 				d = datetime.datetime.today();
-				ws.send(d.strftime("%Y-%m-%d %H:%M:%S"));
+				cont = "<p>" + message + "</p>" + "<small>" + d.strftime("%Y-%m-%d %H:%M:%S") + "</small>";
+				ws.send(cont);
 		
 	return;
 

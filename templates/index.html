@@ -9,19 +9,27 @@
 	<title></title>
 </head>
 <body>
-    <div class="row">
-	<div class="span2"></div>
-    <div class="span8">
-		<div class="page-header">
-			<h1>Example page <small>subtext</small></h1>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">7-mi</a>
 		</div>
-		<div>
-			<input name="send_input" id="send_input" />
-			<input type="button" value="push" onclick="send_data()" />
-		</div>
-		<div id="view"></div>
 	</div>
-	<div class="span2"></div>
+    <div class="row">
+		<div class="span2"></div>
+		<div class="span8">
+
+			<div class="page-header">
+				<h1>Bulletin Board <small>for 7th mi</small></h1>
+			</div>
+			<div>
+				<form onsubmit="return false;">
+					<input class="span7" name="send_input" id="send_input" />
+					<input class="span1" type="submit" value="send" onclick="send_data()" />
+				</form>
+			</div>
+			<div id="view"></div>
+		</div>
+		<div class="span2"></div>
     </div>
 
 	<script type="text/javascript" src="static/js/jquery.min.js"></script>
@@ -30,10 +38,12 @@
 	<script type="text/javascript">
 var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
 ws.onmessage = function(e){
-	$("#view").prepend("<blockquote class=\"pull-right\">" + e.data + "</blockquote>" + "\n");
+	str = "<blockquote style=\"width:100%;\">" + e.data + "</blockquote>";
+	$("#view").prepend($(str));
 };
 function send_data(){
 	ws.send($("#send_input").val());
+	$("#send_input").val("");
 };
 	</script>
 </body>
