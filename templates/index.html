@@ -23,8 +23,9 @@
 				<h3>History</h3>
 			</div>
 			<div class="modal-body">
-				<p>2014.11.26 v1.0.1 historyボタンきれいにしました</p>
-				<p>2014.11.26 v1.0.0 とりあえず公開</p>
+				<p><strong>v1.1.0</strong> 現在のアクセス人数が表示できるようになりました <small>at 2014.11.26</small></p>
+				<p><strong>v1.0.1</strong> historyボタンきれいにしました <small>at 2014.11.26</small></p>
+				<p><strong>v1.0.0</strong> とりあえず公開 <small>at 2014.11.26</small></p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">Close</button>
@@ -44,7 +45,7 @@
 					<input class="span1" type="submit" value="send" onclick="send_data()" />
 				</form>
 			</div>
-			<!-- <p>Now Access : <span id="numOfAccess">0</span></p> -->
+			<p>Now Access : <span id="numOfAccess"></span></p>
 			<div id="view"></div>
 		</div>
 		<div class="span2"></div>
@@ -63,8 +64,7 @@ ws.onmessage = function(e){
 		$("#view").prepend($(str));
 	}
 	else if (recvData.type == "userNum"){
-		$("#numOfUser").html(recvData.data);
-		$("#view").prepend(e.data);
+		$("#numOfAccess").html(recvData.data);
 	}
 };
 
