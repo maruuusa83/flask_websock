@@ -19,9 +19,7 @@
 			<input name="send_input" id="send_input" />
 			<input type="button" value="push" onclick="send_data()" />
 		</div>
-		<div>
-			<textarea id="view" name="" cols="30" rows="10"></textarea>
-		</div>
+		<div id="view"></div>
 	</div>
 	<div class="span2"></div>
     </div>
@@ -32,7 +30,7 @@
 	<script type="text/javascript">
 var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
 ws.onmessage = function(e){
-	$("#view").html($("#view").val() + e.data + "\n");
+	$("#view").prepend("<blockquote class=\"pull-right\">" + e.data + "</blockquote>" + "\n");
 };
 function send_data(){
 	ws.send($("#send_input").val());
