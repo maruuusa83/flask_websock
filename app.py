@@ -23,22 +23,19 @@ def echo():
 	if request.environ.get('wsgi.websocket'):
 		websock = request.environ['wsgi.websocket'];
 		wss.append(websock);
-		for ws in wss:
-			ws.send('{"type":"userNum", "data":"' + str(len(wss)) + '"}');
+		broadcast('{"type":"userNum", "data":"' + str(len(wss)) + '"}');
 		while True:
 			message = websock.receive();
-			postNo += 1;
+
 			if message is None:
 				wss.remove(websock);
-				num = 1;
-				for ws in wss:
-					ws.send('{"type":"userNum", "data":"' + str(len(wss)) + '"}');
+				broadcast('{"type":"userNum", "data":"' + str(len(wss)) + '"}');
 				break;
-			for ws in wss:
+			else:
+				postNo += 1;
 				d = datetime.datetime.today();
-				cont = "<p>" + message + "</p>" + "<small>" + " PostNo:" + str(postNo) + "  Date:" + d.strftime("%Y-%m-%d %H:%M:%S") + "</small>";
-				ws.send('{"type":"msg", "data":"' + cont + '"}');
-		
+				cont = "<p>" + message + "</p>" + "<small>" + " PostNo:" + str(postNo) + "    Date:" + d.strftime("%Y-%m-%d %H:%M:%S") + "</small>";
+				broadcast('{"type":"msg", "data":"' + cont + '"}');
 	return;
 
 def broadcast(msg):
