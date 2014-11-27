@@ -4,16 +4,17 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<link rel="stylesheet" href="static/css/min/bootmetro.min.css" />
-	<link rel="stylesheet" href="static/css/min/bootmetro-responsive.min.css" />
-	<link rel="stylesheet" href="static/css/min/bootmetro-icons.min.css" />
+	<link rel="stylesheet" href="static/css/bootmetro.min.css" />
+	<link rel="stylesheet" href="static/css/bootmetro-responsive.min.css" />
+	<link rel="stylesheet" href="static/css/bootmetro-icons.min.css" />
 	<title></title>
 </head>
 <body>
 	<div class="navbar">
 		<div class="navbar-inner">
 			<ul class="nav">
-				<li><a class="brand" href="#">mi-7.tk</a></li>
+				<li><a class="brand" href="#"><span class="icon-chat-alt-stroke"></span> mi-7.tk</a></li>
+				<li><a data-toggle="modal" href="#readmeModal">readme</a></li>
 				<li><a data-toggle="modal" href="#myModal">history</a></li>
 			</ul>
 		</div>
@@ -23,10 +24,34 @@
 				<h3>History</h3>
 			</div>
 			<div class="modal-body">
-				<p><strong>v1.2.0</strong> コテハンをつけることができるようになりました <small>at 2014.11.26</small></p>
-				<p><strong>v1.1.0</strong> 現在のアクセス人数が表示できるようになりました <small>at 2014.11.26</small></p>
-				<p><strong>v1.0.1</strong> historyボタンきれいにしました <small>at 2014.11.26</small></p>
+				<p><strong>v1.2.3</strong> POSTに対して通し番号がつきました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.2.2</strong> コネクションステータスがわかるようになりました. 細かい修正を加えました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.2.1</strong> HNの末尾に#をつけることで固有IDがつけられるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.2.0</strong> コテハンをつけることができるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.1.0</strong> 現在のアクセス人数が表示できるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.0.1</strong> historyボタンきれいにしました. <small>at 2014.11.26</small></p>
 				<p><strong>v1.0.0</strong> とりあえず公開 <small>at 2014.11.26</small></p>
+
+				<hr />
+
+				<p class="text-right">&copy; 2014 maruuusa83</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<div id="readmeModal" class="modal message hide fade">
+			<div class="modal-header">
+				<h3>README.modal</h3>
+			</div>
+			<div class="modal-body">
+				<p>「となりのナナミさん」のboxでハンドルネームつけられます。<br />
+				HNの末尾に「<i>#任意の文字列</i>」とつけるとMD5ハッシュを振ります。<br />
+				かなり雑な対策なのでイタズラしないでくださいね・・・<br />
+				<br />
+				開発者のhash : @ac0a810242b8b234415a95fd84be60da<br />
+				<br />
+				スマホでの動作確認 : Chrome/Android, Opera Classic/Android(2.xも対応), Safari/iOS</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">Close</button>
@@ -40,7 +65,11 @@
 				<h1>Bulletin Board <small>for 7th mi</small></h1>
 			</div>
 
-			<p>Now Access : <span id="numOfAccess"></span></p>
+			<p>
+				<span class="icon-spinner" id="connStateIcon"></span> <span id="connStateText">Connecting...</span><br />
+				Now Access : <span id="numOfAccess"></span>
+			</p>
+
 			<div>
 				<form onsubmit="return false;">
 					<input class="span4" name="send_input" id="send_input" placeholder="コメント" />
@@ -48,6 +77,9 @@
 					<input class="span1" type="submit" value="send" onclick="send_data()" />
 				</form>
 			</div>
+
+			<hr />
+
 			<div id="view"></div>
 		</div>
 		<div class="span2"></div>
@@ -59,6 +91,12 @@
 	<script type="text/javascript" src="static/js/md5.js"></script>
 	<script type="text/javascript">
 var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
+
+ws.onopen = function(){
+	$("span#connStateIcon").attr("class", "icon-checkmark-6");
+	$("span#connStateText").html("You have connection now.");
+};
+
 ws.onmessage = function(e){
 	var recvData = jQuery.parseJSON(e.data);
 
@@ -71,15 +109,27 @@ ws.onmessage = function(e){
 	}
 };
 
+ws.onclose = function(e){
+	$("div#connProgress").attr("class", "");
+	$("span#connStateIcon").attr("class", "icon-x");
+	$("span#connStateText").html("No connection.");
+};
+
 function send_data(){
 	var str = $("#send_input").val();
 	if ($("#send_name").val() != ""){
+		if ($("#send_name").val().indexOf("@") != -1 || $("#send_name").val().indexOf("＠") != -1){
+			return;
+		}
 		splited_name = $("#send_name").val().split("#");
 		str += "<small>" + splited_name[0];
 		if (splited_name.length > 1){
 			str += " @" + CybozuLabs.MD5.calc(splited_name[1]);
 		}
 		str += "</small>";
+	}
+	if ($("#send_input").val().indexOf("script") != -1){
+		return;
 	}
 	ws.send(str);
 	$("#send_input").val("");
