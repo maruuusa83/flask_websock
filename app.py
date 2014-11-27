@@ -5,6 +5,7 @@ from flask import Flask, request, render_template
 
 import datetime
 import locale
+import json, hashlib
 
 app = Flask(__name__);
 
@@ -32,11 +33,44 @@ def echo():
 				broadcast('{"type":"userNum", "data":"' + str(len(wss)) + '"}');
 				break;
 			else:
-				postNo += 1;
-				d = datetime.datetime.today();
-				cont = "<p>" + message + "</p>" + "<small>" + " PostNo:" + str(postNo) + "    Date:" + d.strftime("%Y-%m-%d %H:%M:%S") + "</small>";
-				broadcast('{"type":"msg", "data":"' + cont + '"}');
+				try :
+					postedDataJson = json.loads(message);
+				except:
+					emsg = "<p>ERROR : Sorry but we can't accept your message. (E0)</p>";
+					senderr(emsg, websock);
+					continue;
+				if (postedDataJson['type'] == 'post'):
+					if 'msg' not in postedDataJson :
+						continue;
+					if postedDataJson['msg'] == '' :
+						emsg = "<p>ERROR : Sorry but you must write comment.</p>";
+						senderr(emsg, websock);
+						continue;
+					if 'script' in postedDataJson['msg'] :
+						emsg = "<p>ERROR : Sorry but we can't accept your message. (E1)</p>";
+						senderr(emsg, websock);
+						continue;
+
+					handlename = '';
+					if 'name' in postedDataJson :
+						if '@' in postedDataJson['name']:
+							emsg = "<p>ERROR : Sorry but you can't use '@' in your handlename..</p>";
+							senderr(emsg, websock);
+							continue;
+						handlename = 'from:' + postedDataJson['name'];
+						if 'id' in postedDataJson :
+							m = hashlib.md5();
+							m.update(postedDataJson['id']);
+							handlename = handlename + '@' + m.hexdigest();
+					postNo += 1;
+					d = datetime.datetime.today();
+
+					cont = "<p>" + postedDataJson['msg'] + "</p>" + "<small>" + d.strftime("%Y-%m-%d %H:%M:%S") + " " + handlename + "</small>" + "<small>PostNo : " + str(postNo) + "</small>";
+					broadcast('{"type":"msg", "data":"' + cont + '"}');
 	return;
+
+def senderr(emsg, sock):
+	sock.send('{"type":"err", "data":"' + emsg + '"}');
 
 def broadcast(msg):
 	global wss;

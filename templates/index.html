@@ -24,8 +24,9 @@
 				<h3>History</h3>
 			</div>
 			<div class="modal-body">
-				<p><strong>v1.2.3</strong> POSTに対して通し番号がつきました. <small>at 2014.11.27</small></p>
-				<p><strong>v1.2.2</strong> コネクションステータスがわかるようになりました. 細かい修正を加えました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.3.2</strong> Client/Server共に細かい修正を加えました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.3.1</strong> POSTに対して通し番号がつきました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.3.0</strong> コネクションステータスがわかるようになりました. 細かい修正を加えました. <small>at 2014.11.27</small></p>
 				<p><strong>v1.2.1</strong> HNの末尾に#をつけることで固有IDがつけられるようになりました. <small>at 2014.11.26</small></p>
 				<p><strong>v1.2.0</strong> コテハンをつけることができるようになりました. <small>at 2014.11.26</small></p>
 				<p><strong>v1.1.0</strong> 現在のアクセス人数が表示できるようになりました. <small>at 2014.11.26</small></p>
@@ -98,9 +99,14 @@ ws.onopen = function(){
 };
 
 ws.onmessage = function(e){
+	console.log(e.data);
 	var recvData = jQuery.parseJSON(e.data);
 
 	if (recvData.type == "msg"){
+		str = "<blockquote style=\"width:100%;\">" + recvData.data + "</blockquote>";
+		$("#view").prepend($(str));
+	}
+	else if (recvData.type == "err"){
 		str = "<blockquote style=\"width:100%;\">" + recvData.data + "</blockquote>";
 		$("#view").prepend($(str));
 	}
@@ -116,22 +122,17 @@ ws.onclose = function(e){
 };
 
 function send_data(){
-	var str = $("#send_input").val();
+	var postDataJson = '{"type":"post", "msg":"' + $("#send_input").val() + '"';
 	if ($("#send_name").val() != ""){
-		if ($("#send_name").val().indexOf("@") != -1 || $("#send_name").val().indexOf("＠") != -1){
-			return;
-		}
 		splited_name = $("#send_name").val().split("#");
-		str += "<small>" + splited_name[0];
+		postDataJson += ', "name":"' + splited_name[0] + '"';
 		if (splited_name.length > 1){
-			str += " @" + CybozuLabs.MD5.calc(splited_name[1]);
+			postDataJson += ', "id":"' + splited_name[1] + '"';
 		}
-		str += "</small>";
 	}
-	if ($("#send_input").val().indexOf("script") != -1){
-		return;
-	}
-	ws.send(str);
+
+	postDataJson += '}';
+	ws.send(postDataJson);
 	$("#send_input").val("");
 };
 	</script>
