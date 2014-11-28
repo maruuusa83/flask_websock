@@ -46,17 +46,18 @@ def echo():
 						emsg = "<p>ERROR : Sorry but you must write comment.</p>";
 						senderr(emsg, websock);
 						continue;
-					if 'script' in postedDataJson['msg'] :
+					if 'script' in postedDataJson['msg'].lower() :
 						emsg = "<p>ERROR : Sorry but we can't accept your message. (E1)</p>";
 						senderr(emsg, websock);
 						continue;
 
 					handlename = '';
 					if 'name' in postedDataJson :
-						if '@' in postedDataJson['name']:
-							emsg = "<p>ERROR : Sorry but you can't use '@' in your handlename..</p>";
+						if '@' in postedDataJson['name'] or '<' in postedDataJson['name'] or '>' in postedDataJson['name']:
+							emsg = "<p>ERROR : Sorry but you can't use '@' or '<' or '>' in your handlename.</p>";
 							senderr(emsg, websock);
 							continue;
+
 						handlename = 'from:' + postedDataJson['name'];
 						if 'id' in postedDataJson :
 							m = hashlib.md5();

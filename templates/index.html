@@ -24,6 +24,9 @@
 				<h3>History</h3>
 			</div>
 			<div class="modal-body">
+				<p><strong>v1.4.2</strong> 不具合を修正しました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.4.1</strong> 不要なjsファイルの読み込みの削除とレイアウト/ロジックの分離をしました. 不要な処理を削除しました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.4.0</strong> クライアントサイドで行っていた処理の一部をサーバサイドに移動しました. UIを更新しました. <small>at 2014.11.28</small></p>
 				<p><strong>v1.3.2</strong> Client/Server共に細かい修正を加えました. <small>at 2014.11.28</small></p>
 				<p><strong>v1.3.1</strong> POSTに対して通し番号がつきました. <small>at 2014.11.27</small></p>
 				<p><strong>v1.3.0</strong> コネクションステータスがわかるようになりました. 細かい修正を加えました. <small>at 2014.11.27</small></p>
@@ -46,6 +49,7 @@
 				<h3>README.modal</h3>
 			</div>
 			<div class="modal-body">
+				<p>書き込みの中に半角ダブルクォーテーション「"」を入れることができません。すみません。</p>
 				<p>「となりのナナミさん」のboxでハンドルネームつけられます。<br />
 				HNの末尾に「<i>#任意の文字列</i>」とつけるとMD5ハッシュを振ります。<br />
 				かなり雑な対策なのでイタズラしないでくださいね・・・<br />
@@ -53,6 +57,10 @@
 				開発者のhash : @ac0a810242b8b234415a95fd84be60da<br />
 				<br />
 				スマホでの動作確認 : Chrome/Android, Opera Classic/Android(2.xも対応), Safari/iOS</p>
+
+				<hr />
+
+				<p class="text-right">&copy; 2014 maruuusa83</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal">Close</button>
@@ -89,52 +97,6 @@
 	<script type="text/javascript" src="static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="static/js/min/bootmetro.min.js"></script>
 	<script type="text/javascript" src="static/js/min/bootstrap.min.js"></script>
-	<script type="text/javascript" src="static/js/md5.js"></script>
-	<script type="text/javascript">
-var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
-
-ws.onopen = function(){
-	$("span#connStateIcon").attr("class", "icon-checkmark-6");
-	$("span#connStateText").html("You have connection now.");
-};
-
-ws.onmessage = function(e){
-	console.log(e.data);
-	var recvData = jQuery.parseJSON(e.data);
-
-	if (recvData.type == "msg"){
-		str = "<blockquote style=\"width:100%;\">" + recvData.data + "</blockquote>";
-		$("#view").prepend($(str));
-	}
-	else if (recvData.type == "err"){
-		str = "<blockquote style=\"width:100%;\">" + recvData.data + "</blockquote>";
-		$("#view").prepend($(str));
-	}
-	else if (recvData.type == "userNum"){
-		$("#numOfAccess").html(recvData.data);
-	}
-};
-
-ws.onclose = function(e){
-	$("div#connProgress").attr("class", "");
-	$("span#connStateIcon").attr("class", "icon-x");
-	$("span#connStateText").html("No connection.");
-};
-
-function send_data(){
-	var postDataJson = '{"type":"post", "msg":"' + $("#send_input").val() + '"';
-	if ($("#send_name").val() != ""){
-		splited_name = $("#send_name").val().split("#");
-		postDataJson += ', "name":"' + splited_name[0] + '"';
-		if (splited_name.length > 1){
-			postDataJson += ', "id":"' + splited_name[1] + '"';
-		}
-	}
-
-	postDataJson += '}';
-	ws.send(postDataJson);
-	$("#send_input").val("");
-};
-	</script>
+	<script type="text/javascript" src="static/js/main.js"></script>
 </body>
 </html>
