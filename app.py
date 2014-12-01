@@ -59,16 +59,17 @@ def echo():
 							continue;
 
 						handlename = 'from:' + postedDataJson['name'];
+
 						if 'id' in postedDataJson :
+							m = hashlib.md5();
 							try:
-								m = hashlib.md5();
+								m.update(postedDataJson['id']);
+								handlename = handlename + '@' + m.hexdigest();
 							except:
 								emsg = "<p>ERROR : Sorry but we can't accept your hash id.</p>";
 								senderr(emsg, websock);
 								continue;
 
-							m.update(postedDataJson['id']);
-							handlename = handlename + '@' + m.hexdigest();
 					postNo += 1;
 					d = datetime.datetime.today();
 
