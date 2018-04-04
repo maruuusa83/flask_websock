@@ -1,27 +1,102 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<link rel="stylesheet" href="static/css/bootmetro.min.css" />
+	<link rel="stylesheet" href="static/css/bootmetro-responsive.min.css" />
+	<link rel="stylesheet" href="static/css/bootmetro-icons.min.css" />
 	<title></title>
 </head>
 <body>
-	<h1>test</h1>
-	<div>
-		<input name="send_input" id="send_input" />
-		<input type="button" value="push" onclick="send_data()" />
+	<div class="navbar">
+		<div class="navbar-inner">
+			<ul class="nav">
+				<li><a class="brand" href="#"><span class="icon-chat-alt-stroke"></span> mi-7.tk</a></li>
+				<li><a data-toggle="modal" href="#readmeModal">readme</a></li>
+				<li><a data-toggle="modal" href="#myModal">history</a></li>
+			</ul>
+		</div>
+
+		<div id="myModal" class="modal message hide fade">
+			<div class="modal-header">
+				<h3>History</h3>
+			</div>
+			<div class="modal-body">
+				<p><strong>v1.4.2</strong> 不具合を修正しました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.4.1</strong> 不要なjsファイルの読み込みの削除とレイアウト/ロジックの分離をしました. 不要な処理を削除しました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.4.0</strong> クライアントサイドで行っていた処理の一部をサーバサイドに移動しました. UIを更新しました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.3.2</strong> Client/Server共に細かい修正を加えました. <small>at 2014.11.28</small></p>
+				<p><strong>v1.3.1</strong> POSTに対して通し番号がつきました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.3.0</strong> コネクションステータスがわかるようになりました. 細かい修正を加えました. <small>at 2014.11.27</small></p>
+				<p><strong>v1.2.1</strong> HNの末尾に#をつけることで固有IDがつけられるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.2.0</strong> コテハンをつけることができるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.1.0</strong> 現在のアクセス人数が表示できるようになりました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.0.1</strong> historyボタンきれいにしました. <small>at 2014.11.26</small></p>
+				<p><strong>v1.0.0</strong> とりあえず公開 <small>at 2014.11.26</small></p>
+
+				<hr />
+
+				<p class="text-right">&copy; 2014 maruuusa83</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<div id="readmeModal" class="modal message hide fade">
+			<div class="modal-header">
+				<h3>README.modal</h3>
+			</div>
+			<div class="modal-body">
+				<p>書き込みの中に半角ダブルクォーテーション「"」を入れることができません。すみません。</p>
+				<p>「となりのナナミさん」のboxでハンドルネームつけられます。<br />
+				HNの末尾に「<i>#任意の文字列</i>」とつけるとMD5ハッシュを振ります。<br />
+				かなり雑な対策なのでイタズラしないでくださいね・・・<br />
+				<br />
+				開発者のhash : @ac0a810242b8b234415a95fd84be60da<br />
+				<br />
+				スマホでの動作確認 : Chrome/Android, Opera Classic/Android(2.xも対応), Safari/iOS</p>
+
+				<hr />
+
+				<p class="text-right">&copy; 2014 maruuusa83</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 	</div>
-	<div>
-		<textarea id="view" name="" cols="30" rows="10"></textarea>
-	</div>
-	<script type="text/javascript" src="static/jquery.min.js"></script>
-	<script type="text/javascript">
-var ws = new WebSocket("ws://nado.oknctict.tk:8000/echo");
-ws.onmessage = function(e){
-	$("#view").html($("#view").val() + e.data + "\n");
-};
-function send_data(){
-	ws.send($("#send_input").val());
-};
-	</script>
+    <div class="row">
+		<div class="span2"></div>
+		<div class="span8">
+			<div class="page-header">
+				<h1>Bulletin Board <small>for 7th mi</small></h1>
+			</div>
+
+			<p>
+				<span class="icon-spinner" id="connStateIcon"></span> <span id="connStateText">Connecting...</span><br />
+				Now Access : <span id="numOfAccess"></span>
+			</p>
+
+			<div>
+				<form onsubmit="return false;">
+					<input class="span4" name="send_input" id="send_input" placeholder="コメント" />
+					<input class="span2" name="send_name" id="send_name" placeholder="となりのナナミさん" />
+					<input class="span1" type="submit" value="send" onclick="send_data()" />
+				</form>
+			</div>
+
+			<hr />
+
+			<div id="view"></div>
+		</div>
+		<div class="span2"></div>
+    </div>
+
+	<script type="text/javascript" src="static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/min/bootmetro.min.js"></script>
+	<script type="text/javascript" src="static/js/min/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/js/main.js"></script>
 </body>
 </html>
